@@ -1,5 +1,5 @@
 import React from "react";
-import './CSS/loginsignup.css'
+import "./CSS/loginsignup.css";
 const LoginSignup = () => {
   return (
     <div className="loginSignup">
@@ -11,10 +11,15 @@ const LoginSignup = () => {
           <input type="password" placeholder="Password" />
         </div>
         <button>Continue</button>
-        <p className="loginSignup-login">Already have an account? <span>Login here</span></p>
+        <p className="loginSignup-login">
+          Already have an account? <span>Login here</span>
+        </p>
         <div className="loginsignup-agree">
           <input type="checkbox" name="" id="" />
-          <p>By continuing, i agree i agree to the terms of use and privacy policy.</p>
+          <p>
+            By continuing, i agree i agree to the terms of use and privacy
+            policy.
+          </p>
         </div>
       </div>
     </div>
