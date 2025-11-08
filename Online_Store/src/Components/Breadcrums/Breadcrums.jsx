@@ -1,9 +1,11 @@
-import React from "react";
+import PropTypes from "prop-types";
 import "./Breadcrums.css";
 import arrow_icon from "../Assets/breadcrum_arrow.png";
 
-const Breadcrums = (props) => {
-  const { product } = props;
+const Breadcrums = ({ product }) => {
+  if (!product) {
+    return null;
+  }
   return (
     <div className="breadcrums">
       Home <img src={arrow_icon} alt="arrow" /> SHOP{" "}
@@ -11,6 +13,13 @@ const Breadcrums = (props) => {
       <img src={arrow_icon} alt="" /> {product.name}
     </div>
   );
+};
+
+Breadcrums.propTypes = {
+  product: PropTypes.shape({
+    category: PropTypes.string,
+    name: PropTypes.string,
+  }),
 };
 
 export default Breadcrums;

@@ -1,13 +1,16 @@
-import React, { useContext } from "react";
-import "./productDisplay.css";
-import star_icon from "../Assets/star_icon.png";
-import star_dull_icon from "../Assets/star_dull_icon.png";
+import PropTypes from "prop-types";
+import { useContext } from "react";
+import "./ProductDisplay.css";
+import starIcon from "../Assets/star_icon.png";
+import starDullIcon from "../Assets/star_dull_icon.png";
 import { ShopContext } from "../../Context/ShopContext";
 
-const productDisplay = (props) => {
+const ProductDisplay = ({ product }) => {
+  const { addToCart } = useContext(ShopContext);
 
-  const { product } = props;
-const {addToCart} = useContext(ShopContext)
+  if (!product) {
+    return null;
+  }
 
   return (
     <div className="productDisplay">
@@ -25,11 +28,11 @@ const {addToCart} = useContext(ShopContext)
       <div className="productDisplay-right">
         <h1>{product.name}</h1>
         <div className="productDisplay-right-star">
-          <img src={star_icon} alt="" />
-          <img src={star_icon} alt="" />
-          <img src={star_icon} alt="" />
-          <img src={star_icon} alt="" />
-          <img src={star_dull_icon} alt="" />
+          <img src={starIcon} alt="" />
+          <img src={starIcon} alt="" />
+          <img src={starIcon} alt="" />
+          <img src={starIcon} alt="" />
+          <img src={starDullIcon} alt="" />
           <p>(122)</p>
         </div>
         <div className="productDisplay-right-prices">
@@ -55,12 +58,30 @@ const {addToCart} = useContext(ShopContext)
             <div>XXL</div>
           </div>
         </div>
-        <button onClick={()=>{addToCart(product.id)}}>ADD TO CART</button>
-        <p className="productDisplay-right-category"><span>Category : </span>Women , T-Shirt, Crop Top</p>
-        <p className="productDisplay-right-category"><span>Tags : </span>Modern, Latest</p>
+        <button type="button" onClick={() => addToCart(product.id)}>
+          ADD TO CART
+        </button>
+        <p className="productDisplay-right-category">
+          <span>Category : </span>
+          {product.category}
+        </p>
+        <p className="productDisplay-right-category">
+          <span>Tags : </span>Modern, Latest
+        </p>
       </div>
     </div>
   );
 };
 
-export default productDisplay;
+ProductDisplay.propTypes = {
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    new_price: PropTypes.number.isRequired,
+    old_price: PropTypes.number.isRequired,
+    category: PropTypes.string,
+  }),
+};
+
+export default ProductDisplay;

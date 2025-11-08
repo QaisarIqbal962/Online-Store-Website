@@ -1,32 +1,42 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import "./Hero.css";
-import hand_icon from "../Assets/hand_icon.png";
-import arrow_icon from "../Assets/arrow.png";
-import hero_image from "../Assets/hero_image.png";
+import handIcon from "../Assets/hand_icon.png";
+import arrowIcon from "../Assets/arrow.png";
+import heroImage from "../Assets/Hero_image.png";
 
 const Hero = () => {
   return (
-    <div className="hero">
+    <section className="hero">
       <div className="hero-left">
-        <h2>NEW ARRIVAL ONLY</h2>
-        <div>
-          <div className="hero-hand-icon">
-            <p>new</p>
-            <img src={hand_icon} alt="" />
-          </div>
-          <p>Collections</p>
-          <p>for everyone</p>
-        </div>
-        <div className="hero-latest-button">
-          <div>Latest Collection</div>
-          <img src={arrow_icon} alt="" />
+        <span className="hero-badge">
+          <img src={handIcon} alt="Waving hand illustration" />
+          New arrivals just landed
+        </span>
+        <h1>
+          Fresh collections for <span>everyone</span>
+        </h1>
+        <p className="hero-subtitle">
+          Discover curated looks, breathable fabrics, and silhouettes designed
+          to move with you from day to night.
+        </p>
+        <div className="hero-actions">
+          <Link to="/women" className="hero-cta">
+            Shop latest drops
+            <img src={arrowIcon} alt="" aria-hidden="true" />
+          </Link>
+          <Link to="/men" className="hero-secondary">
+            Explore menswear
+          </Link>
         </div>
       </div>
 
       <div className="hero-right">
-        <img src={hero_image} alt="" />
+        <div className="hero-visual">
+          <img src={heroImage} alt="Model showcasing the new collection" />
+          <div className="hero-glow" aria-hidden="true" />
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

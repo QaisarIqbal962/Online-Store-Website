@@ -1,53 +1,70 @@
-import React, { useContext, useState } from 'react';  
-import './Navbar.css';  
-import logo from '../Assets/logo.png';  
-import cart_icon from '../Assets/cart_icon.png';  
-import { Link } from 'react-router-dom';  
-import { ShopContext } from '../../Context/ShopContext';  
+import { useContext, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import "./Navbar.css";
+import logo from "../Assets/logo.png";
+import cartIcon from "../Assets/cart_icon.png";
+import { ShopContext } from "../../Context/ShopContext";
 
-const Navbar = () => {  
-  const [menu, setMenu] = useState("shop");  
-  const { getTotalCartItems } = useContext(ShopContext);  
+const NAV_LINKS = [
+  { id: "shop", label: "Shop", path: "/" },
+  { id: "men", label: "Men", path: "/men" },
+  { id: "women", label: "Women", path: "/women" },
+  { id: "kid", label: "Kids", path: "/kid" },
+];
 
-  const categories = ['shop', 'mens', 'womens', 'kids'];  
+const Navbar = () => {
+  const [menu, setMenu] = useState("shop");
+  const location = useLocation();
+  const { getTotalCartItems } = useContext(ShopContext);
 
-  return (  
-    <nav className='navbar'>  
-      <div className="nav-logo">  
-        <Link to="/">  
-          <img src={logo} alt="Online Store Logo" />  
-        </Link>  
-        <p>OnlineStore</p>  
-      </div>  
+  useEffect(() => {
+    const activeLink =
+      NAV_LINKS.find((link) => {
+        if (link.path === "/") {
+          return location.pathname === "/";
+        }
+        return location.pathname.startsWith(link.path);
+      }) ?? NAV_LINKS[0];
+    setMenu(activeLink.id);
+  }, [location.pathname]);
 
-      <ul className="nav-menu">  
-        {categories.map(category => (  
-          <li key={category} onClick={() => setMenu(category)}>  
-            <Link   
-              style={{ textDecoration: 'none' }}   
-              to={`/${category}`}   
-              aria-current={menu === category ? 'page' : undefined}  
-            >  
-              {category.charAt(0).toUpperCase() + category.slice(1)} {/* Capitalizes first letter */}  
-            </Link>  
-            {menu === category ? <hr /> : null}  
-          </li>  
-        ))}  
-      </ul>  
+  return (
+    <nav className="navbar">
+      <div className="nav-logo">
+        <Link to="/">
+          <img src={logo} alt="Online Store Logo" />
+        </Link>
+        <p>OnlineStore</p>
+      </div>
 
-      <div className="nav-login-cart">  
-        <Link to='/login'>  
-          <button>Login</button>  
-        </Link>  
-        <Link to='/cart'>  
-          <img src={cart_icon} alt="Cart" />  
-        </Link>  
-        {getTotalCartItems() > 0 && (  
-          <div className="nav-cart-count">{getTotalCartItems()}</div>  
-        )}  
-      </div>  
-    </nav>  
-  );  
-}  
+      <ul className="nav-menu">
+        {NAV_LINKS.map((link) => (
+          <li key={link.id} onClick={() => setMenu(link.id)}>
+            <Link
+              style={{ textDecoration: "none" }}
+              to={link.path}
+              aria-current={menu === link.id ? "page" : undefined}
+            >
+              {link.label}
+            </Link>
+            {menu === link.id ? <hr /> : null}
+          </li>
+        ))}
+      </ul>
+
+      <div className="nav-login-cart">
+        <Link to="/login">
+          <button type="button">Login</button>
+        </Link>
+        <Link to="/cart">
+          <img src={cartIcon} alt="Cart" />
+        </Link>
+        {getTotalCartItems() > 0 && (
+          <div className="nav-cart-count">{getTotalCartItems()}</div>
+        )}
+      </div>
+    </nav>
+  );
+};
 
 export default Navbar;
