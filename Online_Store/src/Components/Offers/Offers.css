@@ -3,7 +3,11 @@
   margin: 0 auto;
   padding: clamp(32px, 6vw, 64px);
   border-radius: 32px;
-  background: linear-gradient(135deg, rgba(254, 226, 226, 0.8), #f0fdf4 70%);
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.18),
+    /* indigo soft */ rgba(34, 211, 238, 0.18) /* cyan soft */
+  );
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
@@ -47,14 +51,11 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-
-.nav-login-cart button:hover{
+.nav-login-cart button:hover {
   background: linear-gradient(135deg, #6366f1, #22d3ee);
-color: #ffffff;
-box-shadow: 0 18px 35px rgba(99, 102, 239, 0.3);
-} 
-
-
+  color: #ffffff;
+  box-shadow: 0 18px 35px rgba(99, 102, 239, 0.3);
+}
 
 .offers-left button:hover {
   transform: translateY(-3px);
