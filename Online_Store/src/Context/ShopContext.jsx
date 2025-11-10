@@ -1,10 +1,32 @@
 import PropTypes from "prop-types";
-import { createContext, useCallback, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import allProduct from "../Components/Assets/all_product";
 
 export const ShopContext = createContext(null);
 
 const getDefaultCart = () => {
+  // Try to load saved cart from localStorage. If not available, fall back to default 0 counts.
+  try {
+    const stored =
+      typeof window !== "undefined" && localStorage.getItem("cartItems");
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      // Ensure we return an object that has an entry for every product id
+      return allProduct.reduce((accumulator, product) => {
+        accumulator[product.id] = parsed[product.id] ?? 0;
+        return accumulator;
+      }, {});
+    }
+  } catch (e) {
+    // ignore parse errors and continue with defaults
+  }
+
   return allProduct.reduce((accumulator, product) => {
     accumulator[product.id] = 0;
     return accumulator;
@@ -13,6 +35,15 @@ const getDefaultCart = () => {
 
 const ShopContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(getDefaultCart());
+
+  // Persist cart to localStorage whenever it changes
+  useEffect(() => {
+    try {
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    } catch (e) {
+      // If storage set fails (e.g., quota), ignore to avoid crashing the app
+    }
+  }, [cartItems]);
 
   const addToCart = useCallback((itemId) => {
     setCartItems((prev) => ({
